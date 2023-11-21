@@ -5,7 +5,7 @@ import noise_reduction_clean
 
 file_path = "C:/Users/tm2378/Desktop/TIROCINIO/WAV/more2.wav"
 file_path_noise = "C:/Users/tm2378/Desktop/TIROCINIO/WAV/noises.wav"
-file_path_dest = 'C:/Users/tm2378/Desktop/TIROCINIO/WAV/effectedoooooooooooooo.wav'
+file_path_dest = 'C:/Users/tm2378/Desktop/TIROCINIO/WAV/effected.wav'
 processor = noise_reduction_clean.PreProcessing(file_path, file_path_dest)
 noise_reduction_clean.processor.read_audio(file_path,file_path_noise)
 
