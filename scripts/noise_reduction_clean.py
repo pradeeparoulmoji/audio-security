@@ -7,7 +7,6 @@ import librosa
 import numpy as np
 
 
-#prossimo obbiettivo nel preprossecing: variabili che cambiano in base alla sorgente
 
 
 class PreProcessing: 
