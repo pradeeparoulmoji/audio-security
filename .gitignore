@@ -1,1 +1,66 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyi
+*.pyz
+*.pyw
+*.pyz/
+*.pyw/
+
+# Virtual Environment
+venv/
+env/
+*.env/
+
+# VSCode settings
+.vscode/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# IDE specific files
+.idea/
+
+# Compiled files
+*.o
+*.lo
+*.la
+*.log
+*.gz
+
+# Ignore coverage
+htmlcov/
+.coverage
+.tox/
+.coveragerc
+
+
+# PyInstaller
+dist/
+build/
+*.exe
+*.spec
+
+# PyBuilder
+target/
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+Pipfile
+
+# pycache
+__pycache__/
+
+
+# pytest
+pytest_cache/
 
