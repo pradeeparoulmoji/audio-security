@@ -4,8 +4,8 @@ import noise_reduction_clean
 
 
 file_path = "../audio_files/more2.wav"
-file_path_noise = "C:/Users/tm2378/Documents/GitHub/audio-security/audio_files/noises.wav"
-file_path_dest = "C:/Users/tm2378/Documents/GitHub/audio-security/audio_files/effected.wav"
+file_path_noise = "../audio_files/noises.wav"
+file_path_dest = "../audio-security/audio_files/effected.wav"
 processor = noise_reduction_clean.PreProcessing(file_path, file_path_dest)
 processor.read_audio(file_path,file_path_noise)
 
