@@ -10,10 +10,10 @@ import numpy as np
 
 
 class PreProcessing: 
-    def __init__(self, file_path, path_dest, target_sr=44100):  # Initialization method
+    def __init__(self, target_sr=44100):  # Initialization method
     # Store the input parameters as attributes of the object
-        self.file_path = file_path       # Path to the input audio file
-        self.file_path_dest = path_dest  # Path to the destination file
+        
+        self.file_path_dest = None       # Path to the destination file
         self.target_sr = target_sr       # Target sample rate for processing
         self.duration = 0                # Initialize duration attribute (to be updated later)
         self.samplerate = 0              # Initialize sample rate attribute (to be updated later)
@@ -78,7 +78,8 @@ class PreProcessing:
         average_amplitude_db_mean = 20 * np.log10(average_amplitude)
         return (max_amplitude_db_mean+average_amplitude_db_mean)/1.75
 
-    def process_audio(self):
+    def process_audio(self, path_dest):
+        self.file_path_dest = path_dest
         # Create a Pedalboard with a Gain effect
         board = Pedalboard([Gain(gain_db=20)])
 
@@ -113,5 +114,4 @@ class PreProcessing:
 
     
   
-
 
