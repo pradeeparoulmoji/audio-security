@@ -20,6 +20,7 @@ To accomplish this, we depended on certain Python open-source libraries, which w
 In the "scripts" directory, you will discover a file named "noise_reduction_clean.py," serving as the script employed for denoising our source audio files. There is then a record.py which allows to record audio from a micrphone. The main scrpit takes all the scripts mentioned and puts them together. Within the "audio_files" directory, three folders are present: one, labeled "source" that contains segments of the audio recorded by the microphone, the second one, labeled "effected" contains the corresponding processed audio. The third one, labeled "noises," includes a sample of ambient noise that can be customized by the user according to their specific requirements.
 
 The working process is captured in the following picture, offering a clear and efficient overview.
+![Working process](https://github.com/pradeeparoulmoji/audio-security/blob/main/pictures/recording%20process.png)
 
 
 
