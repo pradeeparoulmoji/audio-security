@@ -8,16 +8,17 @@ import os
 
 file_path_noise = "../audio_files/noises/noises.wav" # path to the noise file
 finished = False # flag to indicate whether the recording is finished or not
-delay = 10 # chunk time (to be set in the record_audio() function)
+total_duration = 20 # total duration of the recording
+delay = 4 # chunk time (to be set in the record_audio() function)
 
 
 def record_audio():
     """
     Records audio using the recording object.
     """
-    rec = recording.Recording() # recording.py object
+    rec = recording.Recording(total_duration,delay) # recording.py object
     rec.record() # recording.py method
-    #delay = rec.split # set the chunk time
+    
     
     
 

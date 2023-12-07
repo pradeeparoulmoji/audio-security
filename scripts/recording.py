@@ -8,7 +8,7 @@ import time
 class Recording:
     
 
-    def __init__(self):
+    def __init__(self,duration,split):
         """
         Initializes a Recording object.
 
@@ -18,10 +18,10 @@ class Recording:
         - recording: list, list of chunk recordings
         - split: int, total duration of each chunk recording
         """
-        self.duration = 60  # total desired duration of recording
+        self.duration = duration  # total desired duration of recording
         self.fs = 44100      # deafult sample rate
         self.recordings = []  # list of chunk recordings
-        self.split = 10       # total duration of each chunk recording
+        self.split = split      # total duration of each chunk recording
 
     def record(self):
         """
