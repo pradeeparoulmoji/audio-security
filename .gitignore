@@ -8,6 +8,9 @@ __pycache__/
 *.pyw
 *.pyz/
 *.pyw/
+test.py
+test2.py
+test3.py
 
 # Virtual Environment
 venv/

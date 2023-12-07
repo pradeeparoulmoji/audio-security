@@ -1,8 +1,9 @@
 import noisereduce as nr
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
+import pedalboard
 from pedalboard.io import AudioFile
-from pedalboard import *
+
 import librosa
 import numpy as np
 
@@ -10,24 +11,38 @@ import numpy as np
 
 
 class PreProcessing: 
-    def __init__(self, target_sr=44100):  # Initialization method
-    # Store the input parameters as attributes of the object
-        
-        self.file_path_dest = None       # Path to the destination file
-        self.target_sr = target_sr       # Target sample rate for processing
-        self.duration = 0                # Initialize duration attribute (to be updated later)
-        self.samplerate = 0              # Initialize sample rate attribute (to be updated later)
-        self.num_channels = 0            # Initialize number of channels attribute (to be updated later)
-        self.low_freq = 400              # Default low-frequency cutoff for processing
-        self.high_freq = 3500            # Default high-frequency cutoff for processing
-        self.noise_gate_thres = -26      # Default noise gate threshold
-        self.audio_frames = None         # Placeholder for audio frames (to be populated later)
-        self.audio_noise_frames = None   # Placeholder for audio frames containing noise (to be populated later)
+    def __init__(self, target_sr=44100):
+        """
+        Initializes the NoiseReductionClean object.
+
+        Parameters:
+        - target_sr (int): The target sample rate for processing. Default is 44100.
+        """
+        self.file_path_dest = None
+        self.target_sr = target_sr
+        self.duration = 0
+        self.samplerate = 0
+        self.num_channels = 0
+        self.low_freq = 400
+        self.high_freq = 3500
+        self.noise_gate_thres = -26
+        self.audio_frames = None
+        self.audio_noise_frames = None
 
 
     
 
     def read_audio(self, path, noise):
+        """
+        Read the main audio file and the noise audio file.
+
+        Args:
+            path (str): The path to the main audio file.
+            noise (str): The path to the noise audio file.
+
+        Returns:
+            None
+        """
         # Read the main audio file using the pedalboard library
         with AudioFile(path).resampled_to(self.target_sr) as f:
             # Update duration, sample rate, and number of channels attributes
@@ -41,15 +56,21 @@ class PreProcessing:
         with AudioFile(noise).resampled_to(self.target_sr) as n:
             # Create noise audio frames by reading the entire noise audio file
             self.audio_noise_frames = n.read(int(self.target_sr * n.duration))
-                
 
     def plot_audio_channels(self):
+        """
+        Plot the audio channels.
+
+        This method plots each audio channel separately on a single figure.
+        Each channel is represented by its amplitude over time.
+
+        Returns:
+            None
+        """
         # Extract necessary information for plotting
-        duration = int(self.duration)
-        sample_rate = self.target_sr
         time = np.linspace(0, self.duration, num=int(self.samplerate * self.duration))
         audio_data = self.audio_frames
-        # audio_data_dB = 20 * np.log10(audio_data)  # Optional (commented out)
+        
 
         # Set up the plot
         plt.figure(figsize=(14, 5))
@@ -66,8 +87,16 @@ class PreProcessing:
         plt.tight_layout()
         plt.show()
 
-    def noise_gate_setup(self,audio): #set (max amplitude+avg)/2
-        
+    def noise_gate_setup(self, audio):
+        """
+        Calculates the noise gate threshold for the given audio.
+
+        Parameters:
+        audio (ndarray): The audio data as a numpy array.
+
+        Returns:
+        float: The noise gate threshold.
+        """
         audio_data = audio
 
         # Find the maximum absolute amplitude
@@ -76,27 +105,36 @@ class PreProcessing:
         average_amplitude = np.mean(np.abs(audio_data))
         max_amplitude_db_mean = 20 * np.log10(max_amplitude)
         average_amplitude_db_mean = 20 * np.log10(average_amplitude)
-        return (max_amplitude_db_mean+average_amplitude_db_mean)/1.75
+        return (max_amplitude_db_mean + average_amplitude_db_mean) / 1.75
 
     def process_audio(self, path_dest):
+        """
+        Process the audio by applying noise reduction and effects to the audio signal.
+
+        Args:
+            path_dest (str): The destination file path to save the processed audio.
+
+        Returns:
+            None
+        """
         self.file_path_dest = path_dest
         # Create a Pedalboard with a Gain effect
-        board = Pedalboard([Gain(gain_db=20)])
+        board = pedalboard.Pedalboard([pedalboard.Gain(gain_db=20)])
 
         # Reduce noise using the reduce_noise function from the noisereduce library
         reduced_noise = nr.reduce_noise(y=self.audio_frames, sr=self.target_sr, stationary=True, prop_decrease=0.9, n_fft=512)
         reduced_noise = nr.reduce_noise(y=reduced_noise, sr=self.target_sr, y_noise=self.audio_noise_frames, stationary=False, prop_decrease=0.5, n_fft=512)
 
         # Append HighShelfFilter and LowShelfFilter effects to the Pedalboard
-        board.append(HighShelfFilter(cutoff_frequency_hz=self.high_freq, gain_db=-30))
-        board.append(LowShelfFilter(cutoff_frequency_hz=self.low_freq, gain_db=-30))
+        board.append(pedalboard.HighShelfFilter(cutoff_frequency_hz=self.high_freq, gain_db=-30))
+        board.append(pedalboard.LowShelfFilter(cutoff_frequency_hz=self.low_freq, gain_db=-30))
 
         # Apply the effects to the audio signal
         effected = board(reduced_noise, self.target_sr)
 
         # Set up the noise gate using the noise_gate_setup method
         self.noise_gate_thres = self.noise_gate_setup(effected)
-        board.append(NoiseGate(threshold_db=self.noise_gate_thres, release_ms=2000))
+        board.append(pedalboard.NoiseGate(threshold_db=self.noise_gate_thres, release_ms=2000))
 
         # Apply the effects again after adding the noise gate
         effected = board(reduced_noise, self.target_sr)
