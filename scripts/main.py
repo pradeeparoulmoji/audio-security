@@ -74,12 +74,14 @@ def process_audio():
     features = features_extraction.Extract()
     model = model_import.ModelPredictor()
     i = 0 # counter
+    timestamps = []
     
     while True:
         if i == 0:
             time.sleep(delay+1) # wait 
             print("Processing started...")
             if os.path.exists(f"../audio_files/source/source{i}.wav"):
+                timestamps.append(datetime.now())
                 processor.adjust_volume(f"../audio_files/source/source{i}.wav")
                 processor.read_audio(f"../audio_files/source/source{i}.wav", file_path_noise) # read the file
                 processor.process_audio(f"../audio_files/effected/effected{i}.wav")     # process the file
@@ -87,10 +89,12 @@ def process_audio():
                 result = model.process()
                 if result == 1:
                     move_audio(f"../audio_files/source/source{i}.wav")
+                    print(f"Scream detected at {timestamps[i]}!")
             i = i + 1
         else:
             time.sleep(delay) # wait
             if os.path.exists(f"../audio_files/source/source{i}.wav"): # if the file exists
+                timestamps.append(datetime.now())
                 processor.adjust_volume(f"../audio_files/source/source{i}.wav")
                 processor.read_audio(f"../audio_files/source/source{i}.wav", file_path_noise) # read the file
                 processor.process_audio(f"../audio_files/effected/effected{i}.wav") # process the file
@@ -98,6 +102,7 @@ def process_audio():
                 result = model.process()
                 if result == 1:
                     move_audio(f"../audio_files/source/source{i}.wav")
+                    print(f"Scream detected at {timestamps[i]}!")
                 i = i + 1
             else:
                 break # break the loop if the file does not exist
