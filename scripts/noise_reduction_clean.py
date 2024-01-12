@@ -5,6 +5,9 @@ import pedalboard
 from pedalboard.io import AudioFile
 import librosa
 import numpy as np
+import torch
+from pydub import AudioSegment
+import os
 
 
 
@@ -28,7 +31,24 @@ class PreProcessing:
         self.audio_frames = None
         self.audio_noise_frames = None
 
+    def adjust_volume(self, file_path, target_dB=-40):
+        # Check if it's a file and has a ".wav" extension (adjust extension as needed)
+        if os.path.isfile(file_path) and file_path.lower().endswith('.wav'):
+            # Load the audio file
+            audio = AudioSegment.from_file(file_path, format="wav")
 
+            # Calculate the volume adjustment factor
+            volume_adjustment = target_dB - audio.dBFS
+
+            # Apply the volume adjustment
+            adjusted_audio = audio + volume_adjustment
+
+            # Export the adjusted audio to a new file with "_adjusted" appended to the original filename
+            output_filename = os.path.basename(file_path).replace('.wav', '.wav')
+            output_path = os.path.join(os.path.dirname(file_path), output_filename)
+            adjusted_audio.export(output_path, format="wav")
+
+            
     
 
     def read_audio(self, path, noise):
@@ -85,7 +105,9 @@ class PreProcessing:
         # Adjust layout and display the plot
         plt.tight_layout()
         plt.show()
-
+    
+    
+            
     def noise_gate_setup(self, audio):
         """
         Calculates the noise gate threshold for the given audio.
@@ -105,6 +127,9 @@ class PreProcessing:
         max_amplitude_db_mean = 20 * np.log10(max_amplitude)
         average_amplitude_db_mean = 20 * np.log10(average_amplitude)
         return (max_amplitude_db_mean + average_amplitude_db_mean) / 1.75
+    
+    
+        
 
     def process_audio(self, path_dest):
         """

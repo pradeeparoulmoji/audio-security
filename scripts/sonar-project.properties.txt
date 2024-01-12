@@ -1,0 +1,1 @@
+sonar.projectKey=my_project_key=test1
