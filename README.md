@@ -29,6 +29,9 @@ Thera are then some other minor scripts used to train our model and to mantain t
 
 The main scrpit takes all the scripts mentioned and puts them together. Within the "audio_files" directory, three folders are present: one, labeled "source" that contains segments of the audio recorded by the microphone, the second one, labeled "effected" contains the corresponding processed audio. Inside of the "source" there is another folder named "detection" used to store every file that contains unusual sounds from the source files as screams.
 
+**running the main script**\
+When the script is initiated, audio recording commences. Every two seconds, a new file is appended to the "source" folder. Subsequently, the audio file undergoes automatic denoising and is placed in the "effected" folder. The processed file is then fed into the SVM model. If the model detects a scream or any highly unusual sounds, "Scream detected + a timestamp" is outputted, and the associated source file chunk is relocated to the "detection" folder.
+
 The working process is captured in the following picture, offering a clear and efficient overview.\
 ![Working process](https://github.com/pradeeparoulmoji/audio-security/blob/main/pictures/recording%20process.png)
 
