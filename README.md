@@ -19,7 +19,7 @@ In the "scripts" directory, you will discover a file named "noise_reduction_clea
 **recording.py** is the piece of code that performs the recording of audio from an input microphone.\
 **model_svm.py** is the piece of code used to train our model\
 **model_import.py** is the piece of code to correctly import the model into the main script.\
-**features.extraction.py** is the piece of code that converts an audio file into a list of audio features\
+**features.extraction.py** is the piece of code that converts an audio file into a list of audio features
 
 --There are then some other minor scripts used to train our model and to mantain the whole project:\
 **training_features_extraction.py** is a piece of code used to convert training audio files into a CSV file containing audio features from every file.\
