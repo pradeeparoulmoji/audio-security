@@ -1,5 +1,5 @@
 # audio-security
-**In the script folder, Run the following command to install the required dependencies: pip install -r requirements.txt** \
+**In the scripts folder, Run the following command to install the required dependencies: pip install -r requirements.txt** \
 **Run main_test.py to execute**
 
 
