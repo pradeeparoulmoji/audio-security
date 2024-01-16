@@ -10,9 +10,6 @@ To accomplish this, we depended on certain Python open-source libraries.
 We subsequently employed Support Vector Machines (SVM) to analyze audio signals captured by microphones.
 
 
-
-In the "scripts" directory, you will discover a file named "noise_reduction_clean.py," serving as the script employed for denoising our source audio files. There is then a record.py which allows to record audio from a micrphone.
-
 --The project is composed of multiple scripts:\
 **main.py** is the script to execute in order to run the whole program 
 **noise_reduction_clean** is the piece of code that performs the noise cleaning\
