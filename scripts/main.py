@@ -14,7 +14,7 @@ from datetime import datetime
 
 file_path_noise = "../audio_files/noises/noises.wav" # path to the noise file
 finished = False # flag to indicate whether the recording is finished or not
-total_duration = 120 # total duration of the recording
+total_duration = int(input("insert desired recording duration in seconds: ")) # total duration of the recording
 delay = 2 # chunk time (to be set in the record_audio() function)
 
 
