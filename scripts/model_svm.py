@@ -11,7 +11,7 @@ import joblib
 #Load  dataset
 df = pd.read_csv("../csv/training_dataset.csv")
 
-#Split your dataset into features (X) and labels (y)
+#Split dataset into features (X) and labels (y)
 X = df.iloc[:, :16]  # Features
 y = df.iloc[:, 16]  # Labels
 
@@ -58,7 +58,7 @@ saved_model = pickle.dumps(clf)
 with open('svm_model.pkl', 'wb') as file:
     pickle.dump(clf, file)
     
-# Assuming scaler is your fitted StandardScaler
+# Assuming scaler is fitted StandardScaler
 joblib.dump(scaler, 'scaler.pkl')    
 
 
