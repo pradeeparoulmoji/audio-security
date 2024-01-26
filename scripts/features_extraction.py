@@ -7,7 +7,9 @@ import librosa
 
 class Extract: 
     def __init__(self):
-        
+        """
+        Initializes the features_extraction object.
+        """
         self.mfcc1 = 0
         self.mfcc2 = 0
         self.mfcc3 = 0
@@ -29,13 +31,18 @@ class Extract:
 
 
     def load_audio(self, audio_path):
+        """
+        loading audio from a selcted path.
+        """
         self.aud, sr = librosa.load(audio_path, sr = 16000)
         return self.aud
 
     def extract_features_lib(self, nfft, hop):
+        """
+        Extracting audio features.
+        """
         #MFCC - 13 features per audio file
-        
-        
+                
         mean_mfcc = np.mean(librosa.feature.mfcc(y=self.aud, sr=16000, n_mfcc=13, n_fft=nfft, hop_length=hop, window = 'hann').T,axis=0)
         
         #zero crossing rate - 1 feature per audio file  (averaging top 10% of ZCR over the whole file)
@@ -75,6 +82,9 @@ class Extract:
         self.RMSE = avg_RMSE
         
     def to_csv(self):
+        """
+        Exporting features in CSV file.
+        """
         df = pd.DataFrame(np.column_stack([self.mfcc1, self.mfcc2, self.mfcc3, self.mfcc4, self.mfcc5, self.mfcc6, self.mfcc7, self.mfcc8, self.mfcc9, self.mfcc10, self.mfcc11, self.mfcc12, self.mfcc13, self.zcr, self.centroid, self.RMSE]), 
                                columns=['mean_mfcc1', 'mean_mfcc2', 'mean_mfcc3', 'mean_mfcc4', 'mean_mfcc5', 'mean_mfcc6', 'mean_mfcc7', 'mean_mfcc8', 'mean_mfcc9', 'mean_mfcc10', 'mean_mfcc11', 'mean_mfcc12', 'mean_mfcc13', 'mean_zcr', 'mean_centroid', 'mean_RMSE'])
 
